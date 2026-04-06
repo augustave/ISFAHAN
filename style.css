@@ -1,0 +1,153 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #000;
+  font-family: 'Courier New', Courier, monospace;
+  cursor: crosshair;
+}
+
+/* Layer 1: Thermal background */
+#thermal-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse 80px 50px at 50% 50%, #661111 0%, transparent 100%),
+    linear-gradient(155deg, transparent 30%, #1a0505 45%, #220808 50%, #1a0505 55%, transparent 70%),
+    radial-gradient(ellipse 120px 90px at 65% 62%, #2a0a0a 0%, transparent 80%),
+    radial-gradient(ellipse at 50% 50%, #110303 0%, #0a0101 40%, #000 80%);
+  background-size: 100% 100%, 100% 100%, 100% 100%, 100% 100%;
+  animation: thermalDrift 20s ease-in-out infinite alternate;
+}
+
+@keyframes thermalDrift {
+  0% { background-position: 0% 0%, 0% 0%, 0% 0%, 0% 0%; }
+  100% { background-position: 3% 2%, -2% 1%, 1% -2%, 0% 0%; }
+}
+
+/* Layer 2: SVG HUD */
+#hud {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 5;
+}
+
+/* Layer 3: Scanlines */
+#scanlines {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to right,
+    transparent 0px,
+    transparent 2px,
+    rgba(0, 0, 0, 0.25) 2px,
+    rgba(0, 0, 0, 0.25) 4px
+  );
+}
+
+#scanlines::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 40%,
+    rgba(0, 0, 0, 0.6) 100%
+  );
+}
+
+/* Noise layer */
+#noise-layer { pointer-events: none; }
+
+/* HUD text styles */
+.hud-text {
+  fill: #ff0000;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 18px;
+  letter-spacing: 1.5px;
+}
+
+.hud-text--sm { font-size: 14px; letter-spacing: 1px; }
+.hud-text--xsm { font-size: 11px; fill: #cc0000; }
+.hud-text--label { font-size: 15px; fill: #ff2222; letter-spacing: 2px; }
+.hud-text--dim { fill: #cc0000; font-size: 16px; letter-spacing: 1.5px; }
+.hud-text--on { fill: #ff3333; font-size: 16px; font-weight: bold; letter-spacing: 3px; }
+
+/* Tape instruments */
+.tape-readout-box { fill: rgba(0,0,0,0.7); stroke: #ff0000; stroke-width: 1.5; }
+.tape-tick { stroke: #770000; stroke-width: 0.8; }
+.tape-tick--major { stroke: #cc0000; stroke-width: 1.2; }
+.tape-label { fill: #990000; font-family: 'Courier New', monospace; font-size: 11px; }
+
+/* RWR threat dots */
+.rwr-dot { fill: #ff3333; }
+
+/* Animations */
+#reticle {
+  transform-origin: 960px 540px;
+  animation: pulse 2.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.03); opacity: 0.85; }
+}
+
+.blink, #lock-indicator {
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.2; }
+}
+
+#scan-line {
+  animation: scanSweep 4s linear infinite;
+}
+
+@keyframes scanSweep {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(1080px); }
+}
+
+#hud text {
+  filter: drop-shadow(0 0 4px rgba(255, 0, 0, 0.5));
+}
+
+#hud {
+  animation: flicker 0.15s infinite alternate;
+}
+
+@keyframes flicker {
+  0% { opacity: 0.97; }
+  100% { opacity: 1; }
+}
+
+#pwr-fill {
+  transition: height 1s ease, y 1s ease;
+}
+
+/* Horizon transition */
+#horizon { transition: transform 0.1s linear; }
+
+/* Weapon fire flash */
+.fire-flash {
+  animation: fireFlash 0.2s ease-out forwards;
+}
+
+@keyframes fireFlash {
+  0% { opacity: 0.6; }
+  100% { opacity: 0; }
+}
