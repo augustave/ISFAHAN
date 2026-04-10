@@ -166,3 +166,26 @@ html, body {
   0% { opacity: 0.6; }
   100% { opacity: 0; }
 }
+
+/* NVG physics overlays */
+#agc-overlay,
+#flash-overlay,
+#bino-overlay,
+#honeycomb-layer {
+  transition: none; /* JS controls these directly */
+}
+
+/* COMMLOG text */
+#commlog-lines text {
+  fill: var(--hud-dim);
+  font-family: 'Courier New', monospace;
+  font-size: 9px;
+  letter-spacing: 0.5px;
+}
+
+/* Trust chain / encounter log text */
+#trust-nodes text,
+#enc-entries text {
+  font-family: 'Courier New', monospace;
+  font-size: 9px;
+}

@@ -38,6 +38,25 @@
       </clipPath>
       <clipPath id="alt-clip"><rect x="100" y="300" width="120" height="460"/></clipPath>
       <clipPath id="spd-clip"><rect x="1700" y="300" width="120" height="460"/></clipPath>
+
+      <!-- NVG binocular vignette softening -->
+      <filter id="bino-soft"><feGaussianBlur stdDeviation="30"/></filter>
+
+      <!-- Honeycomb fiber-optic faceplate pattern -->
+      <pattern id="honeycomb" width="10" height="17.32" patternUnits="userSpaceOnUse">
+        <circle cx="5" cy="4.33" r="4" fill="none" style="stroke: var(--hud-primary)" stroke-width="0.3"/>
+        <circle cx="0" cy="12.99" r="4" fill="none" style="stroke: var(--hud-primary)" stroke-width="0.3"/>
+        <circle cx="10" cy="12.99" r="4" fill="none" style="stroke: var(--hud-primary)" stroke-width="0.3"/>
+      </pattern>
+
+      <!-- NVG binocular figure-eight mask -->
+      <mask id="bino-cutout">
+        <rect width="1920" height="1080" fill="white"/>
+        <g filter="url(#bino-soft)">
+          <ellipse cx="700" cy="540" rx="520" ry="510" fill="black"/>
+          <ellipse cx="1220" cy="540" rx="520" ry="510" fill="black"/>
+        </g>
+      </mask>
     </defs>
 
     <!-- Thermal noise grain layer -->
@@ -52,11 +71,12 @@
       <text id="heading-value" x="960" y="90" class="hud-text" text-anchor="middle" filter="url(#glow)">247°</text>
     </g>
 
-    <!-- DRIP Remote ID -->
+    <!-- DRIP Remote ID (Enhanced) -->
     <g id="drip-id" transform="translate(1340, 100)">
-      <rect x="0" y="0" width="520" height="130" fill="rgba(0,0,0,0.3)" style="stroke: var(--hud-deep)" stroke-width="1"/>
+      <rect x="0" y="0" width="520" height="155" fill="rgba(0,0,0,0.3)" style="stroke: var(--hud-deep)" stroke-width="1"/>
       <rect x="0" y="0" width="520" height="18" fill="rgba(0,0,0,0.2)"/>
       <text x="8" y="13" class="hud-text hud-text--xsm" style="fill: var(--hud-bright)">DRIP UAS RID</text>
+      <text x="300" y="13" class="hud-text hud-text--xsm" id="obs-state" style="fill: var(--hud-primary)">● SCAN</text>
       <text x="510" y="13" class="hud-text hud-text--xsm" text-anchor="end" id="drip-auth">VRFD</text>
       <rect x="480" y="24" width="8" height="8" style="fill: var(--hud-primary)" class="blink"/>
       <text x="8" y="40" class="hud-text hud-text--dim">HHIT</text>
@@ -70,6 +90,24 @@
       <text x="200" y="106" class="hud-text hud-text--dim">REG</text>
       <text x="250" y="106" class="hud-text hud-text--sm" style="fill: var(--hud-bright)">ASTM-F38</text>
       <text x="510" y="106" class="hud-text hud-text--xsm" text-anchor="end" style="fill: var(--hud-dim)">EdDSA</text>
+      <!-- Auth page assembly progress -->
+      <text x="8" y="130" class="hud-text hud-text--dim" style="font-size:11px">AUTH</text>
+      <rect x="55" y="120" width="200" height="10" fill="none" style="stroke: var(--hud-deep)" stroke-width="1"/>
+      <rect x="56" y="121" width="0" height="8" style="fill: var(--hud-dim)" id="auth-fill"/>
+      <text x="265" y="130" class="hud-text hud-text--xsm" id="auth-pages">0/16 PG</text>
+      <text x="370" y="130" class="hud-text hud-text--xsm" id="auth-sig" style="fill: var(--hud-dim)">AWAIT</text>
+    </g>
+
+    <!-- Trust chain -->
+    <g id="trust-chain" transform="translate(1340, 265)">
+      <text x="8" y="10" class="hud-text hud-text--xsm" style="fill: var(--hud-dim)">CERT CHAIN</text>
+      <g id="trust-nodes" transform="translate(8, 18)"></g>
+    </g>
+
+    <!-- Encounter log -->
+    <g id="encounter-log" transform="translate(1340, 365)">
+      <text x="8" y="10" class="hud-text hud-text--xsm" style="fill: var(--hud-dim)">ENC LOG</text>
+      <g id="enc-entries" transform="translate(8, 20)"></g>
     </g>
 
     <!-- Altitude tape (left) -->
@@ -89,6 +127,9 @@
       <text id="spd-tape-readout" x="1760" y="546" class="hud-text" text-anchor="middle" filter="url(#glow)">124</text>
       <text x="1760" y="290" class="hud-text hud-text--xsm" text-anchor="middle">SPD KTS</text>
     </g>
+
+    <!-- Phosphor persistence / track history trails -->
+    <g id="track-trails" opacity="0.4" pointer-events="none"></g>
 
     <!-- Roll/bank horizon line -->
     <g id="horizon">
@@ -122,14 +163,30 @@
       <text id="tgt-range" x="1070" y="410" class="hud-text hud-text--label">RNG 1.24km</text>
     </g>
 
-    <!-- RWR display -->
+    <!-- RWR display (Enhanced with geofence + multi-drone) -->
     <g id="rwr" transform="translate(160, 780)">
+      <!-- Geofence authorization zones -->
+      <circle cx="0" cy="0" r="38" fill="none" stroke="#44cc44" stroke-width="0.6" stroke-dasharray="4,2" opacity="0.35"/>
+      <circle cx="0" cy="0" r="28" fill="none" stroke="#ccaa33" stroke-width="0.6" stroke-dasharray="3,2" opacity="0.3"/>
+      <circle cx="0" cy="0" r="13" fill="none" stroke="#cc3333" stroke-width="0.8" opacity="0.4"/>
+      <text x="42" y="-32" style="fill: #44cc44; font-family: 'Courier New', monospace; font-size: 6px; opacity: 0.5">AUTH</text>
+      <text x="32" y="-20" style="fill: #ccaa33; font-family: 'Courier New', monospace; font-size: 6px; opacity: 0.5">RSTR</text>
+      <text x="16" y="-6" style="fill: #cc3333; font-family: 'Courier New', monospace; font-size: 6px; opacity: 0.5">NFZ</text>
+
       <circle cx="0" cy="0" r="40" fill="rgba(0,0,0,0.3)" style="stroke: var(--hud-deep)" stroke-width="1"/>
       <line x1="0" y1="-40" x2="0" y2="40" style="stroke: var(--hud-subtle)" stroke-width="0.5"/>
       <line x1="-40" y1="0" x2="40" y2="0" style="stroke: var(--hud-subtle)" stroke-width="0.5"/>
       <circle cx="0" cy="0" r="20" fill="none" style="stroke: var(--hud-subtle)" stroke-width="0.5"/>
       <text x="0" y="-48" class="hud-text hud-text--xsm" text-anchor="middle">RWR</text>
       <g id="rwr-threats"></g>
+      <!-- Multi-drone labeled blips -->
+      <g id="rwr-drones"></g>
+    </g>
+
+    <!-- COMMLOG radio chatter -->
+    <g id="commlog" transform="translate(280, 842)">
+      <text x="0" y="-5" class="hud-text hud-text--xsm" style="fill: var(--hud-dim)">COMMLOG</text>
+      <g id="commlog-lines" transform="translate(0, 8)"></g>
     </g>
 
     <!-- Status panel left -->
@@ -188,6 +245,26 @@
       <path d="M1890,1050 L1890,1000" style="stroke: var(--hud-primary)" stroke-width="1"/>
       <path d="M1890,1050 L1840,1050" style="stroke: var(--hud-primary)" stroke-width="1"/>
     </g>
+
+    <!-- Classification banners (MIL-STD) -->
+    <g id="class-banner" pointer-events="none">
+      <rect x="0" y="0" width="1920" height="20" fill="rgba(0,0,0,0.5)"/>
+      <text x="960" y="14" class="hud-text hud-text--xsm" text-anchor="middle" style="fill: var(--hud-bright); letter-spacing: 4px">TOP SECRET // NOFORN // REL TO USA, FVEY</text>
+      <rect x="0" y="1060" width="1920" height="20" fill="rgba(0,0,0,0.5)"/>
+      <text x="960" y="1074" class="hud-text hud-text--xsm" text-anchor="middle" style="fill: var(--hud-bright); letter-spacing: 4px">TOP SECRET // NOFORN // REL TO USA, FVEY</text>
+    </g>
+
+    <!-- AGC dimming overlay -->
+    <rect id="agc-overlay" width="1920" height="1080" fill="black" opacity="0" pointer-events="none"/>
+
+    <!-- Flash overlay (green-out / complementary) -->
+    <rect id="flash-overlay" width="1920" height="1080" opacity="0" pointer-events="none"/>
+
+    <!-- Binocular NVG vignette -->
+    <rect id="bino-overlay" width="1920" height="1080" fill="black" mask="url(#bino-cutout)" opacity="0" pointer-events="none"/>
+
+    <!-- Honeycomb fiber-optic pattern (NVG) -->
+    <rect id="honeycomb-layer" width="1920" height="1080" fill="url(#honeycomb)" opacity="0" pointer-events="none"/>
   </svg>
 
   <!-- Layer 3: Scanlines overlay -->
