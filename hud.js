@@ -24,6 +24,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const rwrThreats = document.getElementById('rwr-threats');
   const reticle = document.getElementById('reticle');
   const noiseTurb = document.querySelector('#thermal-noise feTurbulence');
+  const dripUasId = document.getElementById('drip-uas-id');
+  const dripSession = document.getElementById('drip-session');
+  const dripOperator = document.getElementById('drip-operator');
+  const dripAuthEl = document.getElementById('drip-auth');
+  const dripRidMode = document.getElementById('drip-rid-mode');
 
   // State
   let headingBase = 247;
@@ -45,6 +50,28 @@ document.addEventListener('DOMContentLoaded', () => {
   let fltModeIdx = 0;
   let reticleOffX = 0, reticleOffY = 0;
   let nvgMode = false;
+
+  // --- DRIP seed-based ID generation ---
+  function seededHash(seed, length) {
+    let h = seed ^ 0xDEADBEEF;
+    const chars = '0123456789abcdef';
+    let result = '';
+    for (let i = 0; i < length; i++) {
+      h ^= h << 13; h ^= h >> 17; h ^= h << 5;
+      h = (h + 0x9E3779B9 + (i * 0x6D2B79F5)) | 0;
+      result += chars[Math.abs(h) % 16];
+    }
+    return result;
+  }
+
+  function formatHHIT(hex) {
+    return hex.match(/.{4}/g).join(':');
+  }
+
+  const dripSeed = 0xA1D7;
+  const uasHHIT = seededHash(dripSeed, 32);
+  const operatorId = 'FAA:UA-' + seededHash(dripSeed + 1, 6).toUpperCase();
+  let sessionDET = seededHash(dripSeed + 2, 16);
 
   // --- Build compass ticks ONCE (3 repetitions for wrapping) ---
   function buildCompassTicks() {
@@ -86,6 +113,11 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   buildTapeTicks(altTicks, 2000, 3600, 50, 250, 100, true);
   buildTapeTicks(spdTicks, 80, 180, 5, 25, 1700, false);
+
+  // Initialize DRIP display
+  dripUasId.textContent = formatHHIT(uasHHIT);
+  dripOperator.textContent = operatorId;
+  dripSession.textContent = formatHHIT(sessionDET);
 
   // Format helpers
   function formatDMS(decimal, posChar, negChar) {
@@ -207,6 +239,17 @@ document.addEventListener('DOMContentLoaded', () => {
     if (statusCycle % 4 === 0) {
       fltModeIdx = (fltModeIdx + 1) % fltModes.length;
       fltMode.textContent = fltModes[fltModeIdx];
+    }
+    // DRIP session/auth rotation
+    if (statusCycle % 10 === 0) {
+      sessionDET = seededHash(dripSeed + statusCycle, 16);
+      dripSession.textContent = formatHHIT(sessionDET);
+    }
+    if (statusCycle % 8 === 0) {
+      dripAuthEl.textContent = ['VRFD', 'ACTV', 'PEND'][statusCycle % 3];
+    }
+    if (statusCycle % 6 === 0) {
+      dripRidMode.textContent = dripRidMode.textContent === 'BCAST' ? 'NET' : 'BCAST';
     }
     // RWR threats
     let dots = '';
