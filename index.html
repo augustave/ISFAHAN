@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ANI-A1 // THERMAL CAM</title>
+  <title>ANI-A1 // HUD CAM</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -45,8 +45,8 @@
 
     <!-- Compass bar -->
     <g id="compass">
-      <line x1="560" y1="60" x2="1360" y2="60" stroke="#990000" stroke-width="1"/>
-      <polygon points="960,42 954,30 966,30" fill="#ff0000" filter="url(#glow)"/>
+      <line x1="560" y1="60" x2="1360" y2="60" style="stroke: var(--hud-dim)" stroke-width="1"/>
+      <polygon points="960,42 954,30 966,30" style="fill: var(--hud-primary)" filter="url(#glow)"/>
       <text x="960" y="24" class="hud-text hud-text--sm" text-anchor="middle">HDG</text>
       <g id="compass-ticks" clip-path="url(#compass-clip)"></g>
       <text id="heading-value" x="960" y="90" class="hud-text" text-anchor="middle" filter="url(#glow)">247°</text>
@@ -54,7 +54,7 @@
 
     <!-- Altitude tape (left) -->
     <g id="alt-tape">
-      <rect x="100" y="300" width="120" height="460" fill="rgba(0,0,0,0.3)" stroke="#660000" stroke-width="1"/>
+      <rect x="100" y="300" width="120" height="460" fill="rgba(0,0,0,0.3)" style="stroke: var(--hud-deep)" stroke-width="1"/>
       <g id="alt-ticks" clip-path="url(#alt-clip)"></g>
       <rect x="100" y="525" width="120" height="30" class="tape-readout-box"/>
       <text id="alt-tape-readout" x="160" y="546" class="hud-text" text-anchor="middle" filter="url(#glow)">2847</text>
@@ -63,7 +63,7 @@
 
     <!-- Airspeed tape (right) -->
     <g id="spd-tape">
-      <rect x="1700" y="300" width="120" height="460" fill="rgba(0,0,0,0.3)" stroke="#660000" stroke-width="1"/>
+      <rect x="1700" y="300" width="120" height="460" fill="rgba(0,0,0,0.3)" style="stroke: var(--hud-deep)" stroke-width="1"/>
       <g id="spd-ticks" clip-path="url(#spd-clip)"></g>
       <rect x="1700" y="525" width="120" height="30" class="tape-readout-box"/>
       <text id="spd-tape-readout" x="1760" y="546" class="hud-text" text-anchor="middle" filter="url(#glow)">124</text>
@@ -72,26 +72,26 @@
 
     <!-- Roll/bank horizon line -->
     <g id="horizon">
-      <line x1="760" y1="540" x2="860" y2="540" stroke="#ff0000" stroke-width="1.5" opacity="0.6"/>
-      <line x1="1060" y1="540" x2="1160" y2="540" stroke="#ff0000" stroke-width="1.5" opacity="0.6"/>
-      <path d="M940,540 L950,546 L960,537 L970,546 L980,540" fill="none" stroke="#ff0000" stroke-width="2"/>
+      <line x1="760" y1="540" x2="860" y2="540" style="stroke: var(--hud-primary)" stroke-width="1.5" opacity="0.6"/>
+      <line x1="1060" y1="540" x2="1160" y2="540" style="stroke: var(--hud-primary)" stroke-width="1.5" opacity="0.6"/>
+      <path d="M940,540 L950,546 L960,537 L970,546 L980,540" fill="none" style="stroke: var(--hud-primary)" stroke-width="2"/>
     </g>
 
     <!-- Reticle -->
     <g id="reticle" filter="url(#glow-strong)">
-      <path d="M860,440 L860,420 L880,420" fill="none" stroke="#ff0000" stroke-width="2.5"/>
-      <path d="M1060,440 L1060,420 L1040,420" fill="none" stroke="#ff0000" stroke-width="2.5"/>
-      <path d="M860,640 L860,660 L880,660" fill="none" stroke="#ff0000" stroke-width="2.5"/>
-      <path d="M1060,640 L1060,660 L1040,660" fill="none" stroke="#ff0000" stroke-width="2.5"/>
-      <line x1="940" y1="420" x2="940" y2="445" stroke="#ff0000" stroke-width="1" opacity="0.6"/>
-      <line x1="940" y1="635" x2="940" y2="660" stroke="#ff0000" stroke-width="1" opacity="0.6"/>
-      <line x1="860" y1="540" x2="885" y2="540" stroke="#ff0000" stroke-width="1" opacity="0.6"/>
-      <line x1="995" y1="540" x2="1060" y2="540" stroke="#ff0000" stroke-width="1" opacity="0.6"/>
-      <circle cx="960" cy="540" r="2" fill="#ff0000" opacity="0.8"/>
-      <path d="M920,500 L920,490 L930,490" fill="none" stroke="#ff0000" stroke-width="1.5" opacity="0.7"/>
-      <path d="M1000,500 L1000,490 L990,490" fill="none" stroke="#ff0000" stroke-width="1.5" opacity="0.7"/>
-      <path d="M920,580 L920,590 L930,590" fill="none" stroke="#ff0000" stroke-width="1.5" opacity="0.7"/>
-      <path d="M1000,580 L1000,590 L990,590" fill="none" stroke="#ff0000" stroke-width="1.5" opacity="0.7"/>
+      <path d="M860,440 L860,420 L880,420" fill="none" style="stroke: var(--hud-primary)" stroke-width="2.5"/>
+      <path d="M1060,440 L1060,420 L1040,420" fill="none" style="stroke: var(--hud-primary)" stroke-width="2.5"/>
+      <path d="M860,640 L860,660 L880,660" fill="none" style="stroke: var(--hud-primary)" stroke-width="2.5"/>
+      <path d="M1060,640 L1060,660 L1040,660" fill="none" style="stroke: var(--hud-primary)" stroke-width="2.5"/>
+      <line x1="940" y1="420" x2="940" y2="445" style="stroke: var(--hud-primary)" stroke-width="1" opacity="0.6"/>
+      <line x1="940" y1="635" x2="940" y2="660" style="stroke: var(--hud-primary)" stroke-width="1" opacity="0.6"/>
+      <line x1="860" y1="540" x2="885" y2="540" style="stroke: var(--hud-primary)" stroke-width="1" opacity="0.6"/>
+      <line x1="995" y1="540" x2="1060" y2="540" style="stroke: var(--hud-primary)" stroke-width="1" opacity="0.6"/>
+      <circle cx="960" cy="540" r="2" style="fill: var(--hud-primary)" opacity="0.8"/>
+      <path d="M920,500 L920,490 L930,490" fill="none" style="stroke: var(--hud-primary)" stroke-width="1.5" opacity="0.7"/>
+      <path d="M1000,500 L1000,490 L990,490" fill="none" style="stroke: var(--hud-primary)" stroke-width="1.5" opacity="0.7"/>
+      <path d="M920,580 L920,590 L930,590" fill="none" style="stroke: var(--hud-primary)" stroke-width="1.5" opacity="0.7"/>
+      <path d="M1000,580 L1000,590 L990,590" fill="none" style="stroke: var(--hud-primary)" stroke-width="1.5" opacity="0.7"/>
     </g>
 
     <!-- Target info labels -->
@@ -104,17 +104,17 @@
 
     <!-- RWR display -->
     <g id="rwr" transform="translate(160, 780)">
-      <circle cx="0" cy="0" r="40" fill="rgba(0,0,0,0.3)" stroke="#660000" stroke-width="1"/>
-      <line x1="0" y1="-40" x2="0" y2="40" stroke="#330000" stroke-width="0.5"/>
-      <line x1="-40" y1="0" x2="40" y2="0" stroke="#330000" stroke-width="0.5"/>
-      <circle cx="0" cy="0" r="20" fill="none" stroke="#330000" stroke-width="0.5"/>
+      <circle cx="0" cy="0" r="40" fill="rgba(0,0,0,0.3)" style="stroke: var(--hud-deep)" stroke-width="1"/>
+      <line x1="0" y1="-40" x2="0" y2="40" style="stroke: var(--hud-subtle)" stroke-width="0.5"/>
+      <line x1="-40" y1="0" x2="40" y2="0" style="stroke: var(--hud-subtle)" stroke-width="0.5"/>
+      <circle cx="0" cy="0" r="20" fill="none" style="stroke: var(--hud-subtle)" stroke-width="0.5"/>
       <text x="0" y="-48" class="hud-text hud-text--xsm" text-anchor="middle">RWR</text>
       <g id="rwr-threats"></g>
     </g>
 
     <!-- Status panel left -->
     <g id="status-left">
-      <rect x="75" y="828" width="8" height="8" fill="#ff0000" class="blink"/>
+      <rect x="75" y="828" width="8" height="8" style="fill: var(--hud-primary)" class="blink"/>
       <text id="sensor-mode" x="92" y="836" class="hud-text hud-text--sm">FLIR 3.5x Z245 T12</text>
       <text x="80" y="870" class="hud-text hud-text--dim">SYS <tspan dx="20" id="sys-status">ENBL</tspan></text>
       <text x="80" y="895" class="hud-text hud-text--dim">TRK <tspan dx="20" id="trk-status">ENBL</tspan></text>
@@ -130,14 +130,14 @@
       <text x="1740" y="930" class="hud-text hud-text--dim" text-anchor="end">RNG <tspan dx="10" id="rng-value">8.4</tspan> NM</text>
       <text x="1740" y="955" class="hud-text hud-text--dim" text-anchor="end">PWR <tspan dx="10" id="pwr-value">94</tspan> %</text>
       <g id="pwr-bar" transform="translate(1830, 870)">
-        <rect x="0" y="0" width="12" height="100" fill="none" stroke="#660000" stroke-width="1"/>
-        <rect id="pwr-fill" x="1" y="6" width="10" height="94" fill="#990000"/>
+        <rect x="0" y="0" width="12" height="100" fill="none" style="stroke: var(--hud-deep)" stroke-width="1"/>
+        <rect id="pwr-fill" x="1" y="6" width="10" height="94" style="fill: var(--hud-dim)"/>
       </g>
     </g>
 
     <!-- Telemetry bottom bar -->
     <g id="telemetry-bottom">
-      <line x1="0" y1="1010" x2="1920" y2="1010" stroke="#660000" stroke-width="1"/>
+      <line x1="0" y1="1010" x2="1920" y2="1010" style="stroke: var(--hud-deep)" stroke-width="1"/>
       <text x="80" y="1040" class="hud-text hud-text--sm" id="gps-coords">34°12'18.4"N  118°14'32.1"W</text>
       <text x="960" y="1040" class="hud-text hud-text--sm" text-anchor="middle" id="utc-clock">05 APR 2026 19:42:07Z</text>
       <text x="1840" y="1040" class="hud-text hud-text--sm" text-anchor="end">ANI-A1 // CAM 01</text>
@@ -145,28 +145,28 @@
     </g>
 
     <!-- Horizontal scan line -->
-    <rect id="scan-line" x="0" y="0" width="1920" height="2" fill="#ff3333" opacity="0.3" filter="url(#glow)"/>
+    <rect id="scan-line" x="0" y="0" width="1920" height="2" style="fill: var(--hud-bright)" opacity="0.3" filter="url(#glow)"/>
 
     <!-- Pitch ladder (simplified) -->
     <g id="pitch-ladder" opacity="0.3">
-      <line x1="890" y1="480" x2="930" y2="480" stroke="#ff0000" stroke-width="1"/>
-      <line x1="990" y1="480" x2="1030" y2="480" stroke="#ff0000" stroke-width="1"/>
+      <line x1="890" y1="480" x2="930" y2="480" style="stroke: var(--hud-primary)" stroke-width="1"/>
+      <line x1="990" y1="480" x2="1030" y2="480" style="stroke: var(--hud-primary)" stroke-width="1"/>
       <text x="1035" y="484" class="hud-text hud-text--xsm">+5</text>
-      <line x1="890" y1="600" x2="930" y2="600" stroke="#ff0000" stroke-width="1"/>
-      <line x1="990" y1="600" x2="1030" y2="600" stroke="#ff0000" stroke-width="1"/>
+      <line x1="890" y1="600" x2="930" y2="600" style="stroke: var(--hud-primary)" stroke-width="1"/>
+      <line x1="990" y1="600" x2="1030" y2="600" style="stroke: var(--hud-primary)" stroke-width="1"/>
       <text x="1035" y="604" class="hud-text hud-text--xsm">-5</text>
     </g>
 
     <!-- Border frame corners -->
     <g id="frame" opacity="0.4">
-      <path d="M30,30 L30,80" stroke="#ff0000" stroke-width="1"/>
-      <path d="M30,30 L80,30" stroke="#ff0000" stroke-width="1"/>
-      <path d="M1890,30 L1890,80" stroke="#ff0000" stroke-width="1"/>
-      <path d="M1890,30 L1840,30" stroke="#ff0000" stroke-width="1"/>
-      <path d="M30,1050 L30,1000" stroke="#ff0000" stroke-width="1"/>
-      <path d="M30,1050 L80,1050" stroke="#ff0000" stroke-width="1"/>
-      <path d="M1890,1050 L1890,1000" stroke="#ff0000" stroke-width="1"/>
-      <path d="M1890,1050 L1840,1050" stroke="#ff0000" stroke-width="1"/>
+      <path d="M30,30 L30,80" style="stroke: var(--hud-primary)" stroke-width="1"/>
+      <path d="M30,30 L80,30" style="stroke: var(--hud-primary)" stroke-width="1"/>
+      <path d="M1890,30 L1890,80" style="stroke: var(--hud-primary)" stroke-width="1"/>
+      <path d="M1890,30 L1840,30" style="stroke: var(--hud-primary)" stroke-width="1"/>
+      <path d="M30,1050 L30,1000" style="stroke: var(--hud-primary)" stroke-width="1"/>
+      <path d="M30,1050 L80,1050" style="stroke: var(--hud-primary)" stroke-width="1"/>
+      <path d="M1890,1050 L1890,1000" style="stroke: var(--hud-primary)" stroke-width="1"/>
+      <path d="M1890,1050 L1840,1050" style="stroke: var(--hud-primary)" stroke-width="1"/>
     </g>
   </svg>
 

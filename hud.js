@@ -44,6 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const fltModes = ['AUTO', 'LOITER', 'RTB'];
   let fltModeIdx = 0;
   let reticleOffX = 0, reticleOffY = 0;
+  let nvgMode = false;
 
   // --- Build compass ticks ONCE (3 repetitions for wrapping) ---
   function buildCompassTicks() {
@@ -54,11 +55,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const x = (deg + rep * 360) * 2.2;
         const isMajor = deg % 15 === 0;
         const h = isMajor ? 12 : 6;
-        svg += `<line x1="${x}" y1="${60 - h}" x2="${x}" y2="60" stroke="${isMajor ? '#ff0000' : '#770000'}" stroke-width="${isMajor ? 1.5 : 0.8}"/>`;
+        svg += `<line x1="${x}" y1="${60 - h}" x2="${x}" y2="60" style="stroke: var(${isMajor ? '--hud-primary' : '--hud-tick'})" stroke-width="${isMajor ? 1.5 : 0.8}"/>`;
         if (cardinals[deg]) {
-          svg += `<text x="${x}" y="${60 - h - 5}" fill="#ff0000" font-family="'Courier New', monospace" font-size="11" text-anchor="middle" letter-spacing="1">${cardinals[deg]}</text>`;
+          svg += `<text x="${x}" y="${60 - h - 5}" style="fill: var(--hud-primary)" font-family="'Courier New', monospace" font-size="11" text-anchor="middle" letter-spacing="1">${cardinals[deg]}</text>`;
         } else if (deg % 30 === 0) {
-          svg += `<text x="${x}" y="${60 - h - 4}" fill="#990000" font-family="'Courier New', monospace" font-size="9" text-anchor="middle">${deg}°</text>`;
+          svg += `<text x="${x}" y="${60 - h - 4}" style="fill: var(--hud-dim)" font-family="'Courier New', monospace" font-size="9" text-anchor="middle">${deg}°</text>`;
         }
       }
     }
@@ -173,7 +174,8 @@ document.addEventListener('DOMContentLoaded', () => {
     gimbalPan = drift(gimbalPan, 1.5, 200, 290);
     gimbalTilt = drift(gimbalTilt, 0.5, 5, 25);
     flirZoom = drift(flirZoom, 0.1, 2.0, 6.0);
-    sensorMode.textContent = `FLIR ${flirZoom.toFixed(1)}x Z${Math.round(gimbalPan)} T${Math.round(gimbalTilt)}`;
+    const modeLabel = nvgMode ? 'NVG' : 'FLIR';
+    sensorMode.textContent = `${modeLabel} ${flirZoom.toFixed(1)}x Z${Math.round(gimbalPan)} T${Math.round(gimbalTilt)}`;
 
     // Weapon status
     wpnStatus.textContent = wpnCount > 0 ? `${wpnCount}xHELLF` : 'EMPTY';
@@ -252,11 +254,15 @@ document.addEventListener('DOMContentLoaded', () => {
           flash.setAttribute('y', '0');
           flash.setAttribute('width', '1920');
           flash.setAttribute('height', '1080');
-          flash.setAttribute('fill', '#ff3300');
+          flash.style.fill = 'var(--hud-flash)';
           flash.classList.add('fire-flash');
           svg.appendChild(flash);
           flash.addEventListener('animationend', () => flash.remove());
         }
+        break;
+      case 'n': case 'N':
+        nvgMode = !nvgMode;
+        document.body.classList.toggle('nvg', nvgMode);
         break;
     }
   });
